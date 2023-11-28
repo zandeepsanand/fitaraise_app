@@ -42,9 +42,7 @@
       }
     },
     "plugins": ["expo-localization"],
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "scheme": "fitaraise"
   }
 }

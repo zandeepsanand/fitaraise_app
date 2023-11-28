@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">sandeep s anand</string>
+  <string name="app_name">sandeep s anand</string>
+  <string name="expo_runtime_version">exposdk:48.0.0</string>
 </resources>
