@@ -58,38 +58,38 @@ const LoadingScreenDiet = () => {
             console.log(authData.formData, 'for workout example');
 
             // Now, register for push notifications and save the token to the database
-            const {status: existingStatus} =
-              await Notifications.getPermissionsAsync();
-            let finalStatus = existingStatus;
+            // const {status: existingStatus} =
+            //   await Notifications.getPermissionsAsync();
+            // let finalStatus = existingStatus;
 
-            if (existingStatus !== 'granted') {
-              const {status} = await Notifications.requestPermissionsAsync();
-              finalStatus = status;
-            }
+            // if (existingStatus !== 'granted') {
+            //   const {status} = await Notifications.requestPermissionsAsync();
+            //   finalStatus = status;
+            // }
 
-            if (finalStatus === 'granted') {
-              const token = (await Notifications.getExpoPushTokenAsync()).data;
-              console.log('Expo push token:', token);
-              const device_token = token;
-              const customer_id = customerId;
+            // if (finalStatus === 'granted') {
+            //   const token = (await Notifications.getExpoPushTokenAsync()).data;
+            //   console.log('Expo push token:', token);
+            //   const device_token = token;
+            //   const customer_id = customerId;
 
-              // Save the token to your database using an API request
-              // Example:
-              await AsyncStorage.setItem('expoPushToken', device_token);
-              const response = await api.post('set_personal_datas', {
-                customer_id,
-                device_token,
-              });
-              // Handle the response from your server as needed.
-              console.log(
-                response.data.data,
-                'loading screen push notification to db',
-              );
+            //   // Save the token to your database using an API request
+            //   // Example:
+            //   await AsyncStorage.setItem('expoPushToken', device_token);
+            //   const response = await api.post('set_personal_datas', {
+            //     customer_id,
+            //     device_token,
+            //   });
+            //   // Handle the response from your server as needed.
+            //   console.log(
+            //     response.data.data,
+            //     'loading screen push notification to db',
+            //   );
 
-              // Continue with your navigation logic...
-            } else {
-              console.log('Failed to get push token for push notification!');
-            }
+            //   // Continue with your navigation logic...
+            // } else {
+            //   console.log('Failed to get push token for push notification!');
+            // }
 
             if (
               requiredCalorieResponse.data.success === true &&

@@ -41,8 +41,11 @@
         "projectId": "7544a3cd-5c50-497d-8063-25bb9fc2ddf6"
       }
     },
-    "plugins": ["expo-localization"],
-    "runtimeVersion": "1.0.0",
+    "plugins": ["expo-localization","@react-native-google-signin/google-signin"],
+ 
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
     "scheme": "fitaraise"
   }
 }

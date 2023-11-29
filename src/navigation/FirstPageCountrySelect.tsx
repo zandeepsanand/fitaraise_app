@@ -105,7 +105,7 @@ const FirstPageCountrySelect = ({navigation}) => {
                   center>
                   <Block row align="center">
                     <Block flex={0}>
-                      {selectedCountry.image_lg ===
+                      {selectedCountry.image_sm ===
                       'https://admin.fitaraise.com/storage/uploads/app_images/no_image.png' ? (
                         <Block
                           style={{
@@ -177,7 +177,7 @@ const FirstPageCountrySelect = ({navigation}) => {
                       center>
                       <Block row align="center">
                         <Block flex={0}>
-                          {item.image ===
+                          {item.image_sm ===
                           'https://admin.fitaraise.com/storage/uploads/app_images/no_image.png' ? (
                             <Block
                               style={{
@@ -198,7 +198,7 @@ const FirstPageCountrySelect = ({navigation}) => {
                             </Block>
                           ) : (
                             <Image
-                              source={{uri: `${item.image_lg}`}}
+                              source={{uri: `${item.image_sm}`}}
                               style={{
                                 width: 30,
                                 height: 30,

@@ -34,6 +34,7 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { makeRedirectUri } from 'expo-auth-session';
+import Auth from '../components/Auth';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -68,20 +69,20 @@ const LoginScreenNew = ({navigation, route}) => {
   // });
   const [request, response, promptAsync] = Google.useAuthRequest(
     {
-      expoClientId:
-        '261015350901-bda4mpjomi1u2nnshanmfl8kmjdmnavr.apps.googleusercontent.com',
+    
       iosClientId:
-        '261015350901-vstjf25m9r7c8ef8k3rqocbtelae949a.apps.googleusercontent.com',
+        '261015350901-bdtbglvkk202uei6219s2fh6380m5jlp.apps.googleusercontent.com',
       androidClientId:
-        '261015350901-p80gpfnhi2kfbu93o8dab43ks88c7ji2.apps.googleusercontent.com',
-      webClientId:
-        '261015350901-vstjf25m9r7c8ef8k3rqocbtelae949a.apps.googleusercontent.com',
+        '261015350901-rpcn14pphsvtcs1c8iapko8sqhvr6k80.apps.googleusercontent.com',
+      clientId:
+        '261015350901-b8rjadc1qtiaifv1edbo1vo7bilae3qp.apps.googleusercontent.com',
        
     },
     {
       projectNameForProxy: '@sandeepsanand/sandeep',
       
     },
+    
     
   );
   useEffect(() => {
@@ -412,13 +413,14 @@ const LoginScreenNew = ({navigation, route}) => {
           /> */}
         </Block>
         <View style={styles.container}>
+          {/* <Auth/> */}
           {!userInfo ? (
             <Button
               disabled={!request}
               onPress={() => {
                 promptAsync();
               }}>
-              <Text>Sign in with Google</Text>
+              {/* <Text>Sign in with Googles</Text> */}
             </Button>
           ) : (
             <View style={styles.card}>
@@ -434,7 +436,7 @@ const LoginScreenNew = ({navigation, route}) => {
             </View>
           )}
           <Button onPress={async () => await AsyncStorage.removeItem('@user')}>
-            <Text>remove</Text>
+            {/* <Text>remove</Text> */}
           </Button>
         </View>
 
