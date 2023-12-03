@@ -29,8 +29,9 @@ import {BASE_URL} from '@env';
   } from 'react-native';
   import {useNavigation} from '@react-navigation/core';
   import {useHeaderHeight} from '@react-navigation/stack';
-import api from '../../api';
+import api, { setAuthToken } from '../../api';
 import LoginContext from '../hooks/LoginContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
   
   export default function AnimationPage({navigation, route}) {
     const {assets, fonts, sizes, gradients, colors} = useTheme();
@@ -44,49 +45,177 @@ import LoginContext from '../hooks/LoginContext';
     const animationProgress = useRef(new Animated.Value(0));
   
  
+    // useEffect(() => {
+    //   // Start the animation
+    
+    //   api
+    //     .get(`get_recommended_diet/${formDataCopy.customer_id}`)
+    //     .then((response) => {
+    //       console.log(response.data.data.recommended_diet_list, "data for sandeepsss");
+    //       // Handle the successful response from the backend if needed
+    //       setDietPlan(response.data.data.recommended_diet_list);
+          
+
+    //       const diet_list = response.data.data.recommended_diet_list ;
+
+    //       if (diet_list !== null) {
+    //         const timeout = setTimeout(() => {
+    //           // Navigate to the next page
+    //           navigation.navigate('Progress', { data, formDataCopy, dietPlan : diet_list });
+
+    //         }, 5000);
+    //         return () => clearTimeout(timeout);
+    //       } else {
+    //         console.log("not ok");
+    //       }
+
+
+    //     })
+    //     .catch((error) => {
+    //       // Handle the error if needed
+    //     });
+    
+    //   Animated.timing(animationProgress.current, {
+    //     toValue: 1,
+    //     duration: 15000,
+    //     easing: Easing.linear,
+    //     useNativeDriver: false,
+    //   }).start();
+    
+    //   // Clean up the timeout when the component unmounts
+    //   return () => {
+    //     // Clear any asynchronous tasks, timers, or listeners here
+    //   };
+    // }, []);
+     // Empty dependency array to run this effect only once when the component mounts
+    
+    // Wait for 2 seconds before showing the next page
+    const {loginSuccess} = useContext(LoginContext);
     useEffect(() => {
-      // Start the animation
-      api
-        .get(`get_recommended_diet/${formDataCopy.customer_id}`)
-        .then((response) => {
-          console.log(response.data.data.recommended_diet_list, "data for sandeepsss");
+      const fetchDataAndRedirect = async () => {
+        try {
+          // Start the animation
+          Animated.timing(animationProgress.current, {
+            toValue: 1,
+            duration: 15000,
+            easing: Easing.linear,
+            useNativeDriver: false,
+          }).start();
+    
+          // Fetch diet data
+          const dietListResponse = await api.get(`get_recommended_diet/${formDataCopy.customer_id}`);
+          const dietList = dietListResponse.data.data.recommended_diet_list;
+    
           // Handle the successful response from the backend if needed
-          setDietPlan(response.data.data.recommended_diet_list);
-
-          const diet_list = response.data.data.recommended_diet_list ;
-
-          if (diet_list !== null) {
-            const timeout = setTimeout(() => {
-              // Navigate to the next page
-              navigation.navigate('Progress', { data, formDataCopy, dietPlan : diet_list });
-
-            }, 5000);
-            return () => clearTimeout(timeout);
+          setDietPlan(dietList);
+    
+          if (dietList !== null) {
+            // Navigate to the next page after 5000ms
+            // const timeout = setTimeout(() => {
+            //   navigation.navigate('Progress', { data, formDataCopy, dietPlan: dietList });
+            // }, 5000);
+    
+            // return () => clearTimeout(timeout);
           } else {
             console.log("not ok");
           }
-
-
-        })
-        .catch((error) => {
-          // Handle the error if needed
-        });
     
-      Animated.timing(animationProgress.current, {
-        toValue: 1,
-        duration: 15000,
-        easing: Easing.linear,
-        useNativeDriver: false,
-      }).start();
+          // Your redirectTo logic here
+          // ...
+         
     
-      // Clean up the timeout when the component unmounts
-      return () => {
-        // Clear any asynchronous tasks, timers, or listeners here
+        } catch (error) {
+          // Handle errors
+          console.error('Error:', error);
+        }
       };
-    }, []); // Empty dependency array to run this effect only once when the component mounts
+      const redirectTo = async () => {
+        try {
+          console.log('clicked');
     
-    // Wait for 2 seconds before showing the next page
+          const authDataJSON = await AsyncStorage.getItem('authData');
+          console.log(authDataJSON, 'authdata first page');
     
+          if (authDataJSON) {
+            const authData = JSON.parse(authDataJSON);
+    
+            const authToken = authData.token;
+            const customerId = authData.formData.customer_id;
+            const formData = authData.formData;
+            const token = authData.token;
+    
+            loginSuccess(customerId, formData, token);
+            console.log(authToken, 'auth Data');
+            if (authToken) {
+              setAuthToken(authToken);
+              // setIsLoading(true);
+              const requiredCalorieResponse = await api.get(
+                `get_daily_required_calories/${formData.customer_id}`,
+              );
+              const diet_List = await api.get(
+                `get_recommended_diet/${formData.customer_id}`,
+              );
+    
+              const requiredCalorie = requiredCalorieResponse.data.data;
+    
+              const dietPlan = diet_List.data.data.recommended_diet_list;
+              console.log(requiredCalorie, 'calorie required');
+              console.log(authData.formData, 'for workout example');
+    
+              // setIsLoading(false);
+    
+              if (
+                requiredCalorieResponse.data.success === true &&
+                authData.formData
+              ) {
+                //   navigation.reset({
+                //   index: 0,
+                //   routes: [{ name: 'Menu', params: { data: requiredCalorie, formDataCopy: authData.formData, dietPlan } }],
+                // });
+                navigation.navigate('Progress', {
+                  data: requiredCalorie,
+                  formDataCopy: authData.formData,
+                  dietPlan,
+                });
+              } else if (authData.formData) {
+                navigation.navigate('Details', {formData: authData.formData});
+              } else {
+                navigation.reset({
+                  index: 0,
+                  routes: [{name: 'loginNew'}],
+                });
+              }
+              // Replace 2000 with the desired loading duration (in milliseconds)
+            } else {
+              // No authToken, navigate to 'loginNew'
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'loginNew'}],
+              });
+            }
+          } else {
+            // authData JSON doesn't exist, navigate to 'loginNew'
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'loginNew'}],
+            });
+          }
+          setIsLoading(false);
+        } catch (error) {
+          console.error('Authentication Status Error:', error);
+          setIsLoading(false);
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'FirstPageCountrySelect'}],
+          });
+        }
+      };
+    
+      // Call the new function
+      // fetchDataAndRedirect();
+      redirectTo();
+
+    }, [formDataCopy,data,navigation]);
   
 console.log(dietPlan , "new diet plan");
 

@@ -20,7 +20,7 @@ export default ({data, formDataCopy, dietPlan}) => {
   // console.log('ScreensStack Component - FormDataCopy:', formDataCopy);
   // console.log('ScreensStack Component - DietPlan:', dietPlan);
   const formData = formDataCopy;
-  console.log(formDataCopy, "data copu");
+  // console.log(formDataCopy, "data copu");
   const modifiedFormData = {
     ...formData,
     // Clear specific fields by setting them to null or an empty value

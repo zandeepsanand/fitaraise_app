@@ -133,29 +133,6 @@ const Buttons = () => {
 
 const Cards = ({route, navigation}) => {
   const {formData} = route.params;
-  // console.log(formData ,"checking");
-  // const formData = {
-
-  //   acitivity_level: 'sedentary',
-  //   age: '29',
-  //   customer_id: '14',
-  //   device_token: '',
-  //   dob: '',
-  //   email: 'saasaee@gmail.com',
-  //   first_name: 'vijay',
-  //   gender: 'male',
-  //   height: '178',
-  //   height_unit: 'cm',
-  //   image: '',
-  //   is_vegetarian: '1',
-  //   last_name: '',
-  //   mobile_number: '8606786699',
-  //   weekly_goal: '1',
-  //   weight: '65',
-  //   weight_unit: 'kg',
-  //   weight_want_to: 'gain',
-  // };
-
   const {assets, colors, gradients, sizes} = useTheme();
   const [showModal, setModal] = useState(false);
   const [showModalCm, setModalCm] = useState(false);
@@ -181,17 +158,7 @@ const Cards = ({route, navigation}) => {
   const [selectedUnit, setSelectedUnit] = useState('cm');
   const [isEnabled, setIsEnabled] = React.useState(false);
   const [gender, setGender] = useState('');
-  // const [data, setData] = useState(null);
-  state = {
-    showButton2: false,
-  };
-
-  handlePress = () => {
-    this.setState({
-      showButton2: !this.state.showButton2,
-    });
-  };
-
+  
   const handleInputChange = (value) => {
     if (isKg && value <= 200) {
       setInputValue(value);
@@ -257,24 +224,39 @@ const Cards = ({route, navigation}) => {
     // Remove any non-numeric characters and allow decimal points from the input
     const numericValue = text.replace(/[^0-9.]/g, '');
   
-    // Limit the value to a maximum of 220 cm
-    const maxCmValue = 220;
-    if (!isNaN(numericValue) && parseFloat(numericValue) <= maxCmValue) {
-      setInputValueCm(numericValue);
+    // Check if the numericValue is empty (user pressed backspace to delete)
+    if (numericValue === '') {
+      setInputValueCm('');
       const updatedFormData = {
         ...formData,
         inches: '',
         feet: '',
-        height: numericValue,
+        height: '',
         height_unit: 'cm',
       };
       console.log(updatedFormData, 'height unit check');
       navigation.setParams({ formData: updatedFormData });
     } else {
-      // Handle when the input exceeds the maximum value or is not a valid number
-      console.log('Invalid or out of range height input');
+      // Limit the value to a maximum of 220 cm
+      const maxCmValue = 220;
+      if (!isNaN(numericValue) && parseFloat(numericValue) <= maxCmValue) {
+        setInputValueCm(numericValue);
+        const updatedFormData = {
+          ...formData,
+          inches: '',
+          feet: '',
+          height: numericValue,
+          height_unit: 'cm',
+        };
+        console.log(updatedFormData, 'height unit check');
+        navigation.setParams({ formData: updatedFormData });
+      } else {
+        // Handle when the input exceeds the maximum value or is not a valid number
+        console.log('Invalid or out of range height input');
+      }
     }
   };
+  
   
   const MAX_POUNDS_LIMIT = 1000; // Set the maximum limit in pounds
 
@@ -303,22 +285,35 @@ const Cards = ({route, navigation}) => {
     // Remove any non-numeric characters and allow decimal points from the input
     const numericValue = text.replace(/[^0-9.]/g, '');
   
-    // Limit the value to the maximum kilograms limit
-    if (!isNaN(numericValue) && parseFloat(numericValue) <= MAX_KG_LIMIT) {
-      setInputValueKg(numericValue);
-      
+    // Check if the numericValue is empty (user pressed backspace to delete)
+    if (numericValue === '') {
+      setInputValueKg('');
       const updatedFormData = {
         ...formData,
-        weight: numericValue,
+        weight: '',
         weight_unit: 'kg',
       };
       console.log(updatedFormData, 'weight unit check');
       navigation.setParams({ formData: updatedFormData });
     } else {
-      // Handle when the input exceeds the maximum limit or is not a valid number
-      console.log('Invalid or out of range weight input');
+      // Limit the value to the maximum kilograms limit
+      if (!isNaN(numericValue) && parseFloat(numericValue) <= MAX_KG_LIMIT) {
+        setInputValueKg(numericValue);
+        
+        const updatedFormData = {
+          ...formData,
+          weight: numericValue,
+          weight_unit: 'kg',
+        };
+        console.log(updatedFormData, 'weight unit check');
+        navigation.setParams({ formData: updatedFormData });
+      } else {
+        // Handle when the input exceeds the maximum limit or is not a valid number
+        console.log('Invalid or out of range weight input');
+      }
     }
   };
+  
   
 
  const handlePrimaryPress = () => {

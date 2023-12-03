@@ -37,6 +37,17 @@ const ScreensStack = ({route}) => {
 
     // Additionally, you can perform any other necessary updates here
   }, [data, formDataCopy, dietPlan]);
+  useEffect(() => {
+    // Function to refresh or re-fetch data
+    const fetchData = async () => {
+      // Your data fetching logic here
+      console.log("refresh1");
+      
+    };
+  
+    // Call the function when the 'Menu' page is navigated to
+    fetchData();
+  }, []);
 
   // console.log('ScreensStack Component - Data:', data);
   // console.log('ScreensStack Component - FormDataCopy:', formDataCopy);
@@ -297,7 +308,9 @@ const DrawerContent = (
 /* drawer menu navigation */
 export default function Menu({route}) {
   const { data, formDataCopy, dietPlan } = route.params || {};
-
+console.log('====================================');
+console.log(data,"data calorie");
+console.log('====================================');
   // Use useFocusEffect to update the screen when it gains focus
   useFocusEffect(
     React.useCallback(() => {
@@ -317,6 +330,7 @@ export default function Menu({route}) {
     
     navigation.navigate('Screens', { data, formDataCopy, dietPlan });
   }, []);
+
 
   return (
     <Block gradient={gradients.light}>

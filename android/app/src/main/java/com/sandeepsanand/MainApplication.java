@@ -15,7 +15,10 @@ import com.facebook.soloader.SoLoader;
 import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
 
+import java.util.Arrays; // Import Arrays
 import java.util.List;
+
+
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -73,4 +76,6 @@ public class MainApplication extends Application implements ReactApplication {
     super.onConfigurationChanged(newConfig);
     ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig);
   }
+
+  
 }

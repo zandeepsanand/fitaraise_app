@@ -577,7 +577,11 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
       }
     }
   };
-
+  useEffect(() => {
+    console.log('====================================');
+    console.log(data,"checking over");
+    console.log('====================================');
+  },[data]);
 
   return (
     <Block paddingTop={10}>

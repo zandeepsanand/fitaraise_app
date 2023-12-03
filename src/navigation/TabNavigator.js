@@ -17,11 +17,12 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = ({route}) => {
   const { data, formDataCopy, dietPlan } = route.params ?? {};
-  // console.log(formDataCopy, data, "menu drawer check");
+  console.log(formDataCopy, data, "menu drawer check");
   const {assets, colors, fonts, gradients, sizes} = useTheme();
+  
   useEffect(() => {
     // Navigate to the "Screens" screen when the Menu component is first loaded
-    console.log(data , "updatess diet plan tab");
+    console.log(data.calories , "updatess diet plan tab");
     
     
    
