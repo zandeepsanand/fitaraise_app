@@ -413,7 +413,7 @@ const LoginScreenNew = ({navigation, route}) => {
           /> */}
         </Block>
         <View style={styles.container}>
-          {/* <Auth/> */}
+          <Auth/>
           {!userInfo ? (
             <Button
               disabled={!request}

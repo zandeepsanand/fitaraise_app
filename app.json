@@ -22,7 +22,12 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.sandeepsanand.sandeep"
+      "bundleIdentifier": "com.sandeepsanand.sandeep",
+      "infoPlist":{
+        "CFBundledURLSchemes":[
+          "com.googleusercontent.apps.261015350901-npij2t81k03ft4ekfn1atgulf2uu94ud"
+        ]
+      }
     },
     "android": {
       "useNextNotificationsApi": true,
@@ -41,11 +46,9 @@
         "projectId": "7544a3cd-5c50-497d-8063-25bb9fc2ddf6"
       }
     },
-    "plugins": ["expo-localization","@react-native-google-signin/google-signin"],
+    "plugins": ["@react-native-google-signin/google-signin"],
  
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "scheme": "fitaraise"
   }
 }

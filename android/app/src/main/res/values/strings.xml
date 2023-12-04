@@ -1,5 +1,5 @@
 <resources>
   <string name="app_name">sandeep s anand</string>
-  <string name="expo_runtime_version">exposdk:48.0.0</string>
+  <string name="expo_runtime_version">1.0.0</string>
   <string name="server_client_id">261015350901-ip4l5gb5eugqmvrtt7ln9kfp7ij19qco.apps.googleusercontent.com</string>
 </resources>
